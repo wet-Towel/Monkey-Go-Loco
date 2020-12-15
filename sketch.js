@@ -4,11 +4,12 @@ var stone, stoneImage, stoneGroup;
 var banana, bananaImage, foodGroup;
 var score = 0;
 var ground;
+var lives = 3;
 
 function preload (){
   backImage = loadImage ("jungle.jpg");
   monkeyRun = loadAnimation ("Monkey_01.png", "Monkey_02.png", "Monkey_03.png", "Monkey_04.png", "Monkey_05.png", "Monkey_06.png", "Monkey_07.png", "Monkey_08.png", "Monkey_09.png", "Monkey_10.png");
-  
+
   bananaImage = loadImage ("banana.png");
   stoneImage = loadImage ("stone.png");
 }
@@ -59,6 +60,18 @@ function draw() {
   if (stoneGroup.isTouching (monkey)){
     monkey.scale = 0.1;
     stoneGroup.destroyEach();
+    score = 0;
+    lives = lives - 1;
+  }
+
+  if (lives === 0){
+    monkey.velocityY = 0;
+    back.velocityX = 0;
+    frameCount = 0;
+    foodGroup.setVelocityXEach (0);
+    foodGroup.setLifetimeEach (-1);
+    stoneGroup.setVelocityXEach (0);
+    stoneGroup.setLifetimeEach (-1);
   }
 
   drawSprites();
@@ -106,5 +119,4 @@ function spawnStone () {
   stoneGroup.add (stone);
  }
 }
-
 
